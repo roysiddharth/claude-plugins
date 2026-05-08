@@ -10,9 +10,11 @@ claude plugin marketplace add github.com/roysiddharth/claude-plugins --scope use
 
 ## Plugins
 
+<!-- plugins-table -->
 | Plugin | Install | Description |
 |--------|---------|-------------|
 | dev | `claude plugin install dev@roysiddharth` | Full AI-assisted dev workflow: plan, spec, issue, implement AFK |
+<!-- /plugins-table -->
 
 ## License
 
