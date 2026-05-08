@@ -1,6 +1,6 @@
 {
   "name": "dev",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Full AI-assisted dev workflow: plan, spec, issue, implement AFK",
   "author": {
     "name": "Siddharth Roy",
