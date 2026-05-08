@@ -1,0 +1,9 @@
+{
+  "name": "dev",
+  "version": "1.0.0",
+  "description": "Full AI-assisted dev workflow: plan, spec, issue, implement AFK",
+  "author": {
+    "name": "Siddharth Roy",
+    "url": "https://github.com/roysiddharth"
+  }
+}

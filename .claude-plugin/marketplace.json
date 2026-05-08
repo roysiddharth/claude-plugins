@@ -1,0 +1,16 @@
+{
+  "name": "roysiddharth",
+  "description": "Siddharth Roy's Claude Code plugins",
+  "owner": {
+    "name": "Siddharth Roy",
+    "url": "https://github.com/roysiddharth"
+  },
+  "plugins": [
+    {
+      "name": "dev",
+      "source": "./dev",
+      "description": "Full AI-assisted dev workflow: plan, spec, issue, implement AFK",
+      "version": "1.0.0"
+    }
+  ]
+}
