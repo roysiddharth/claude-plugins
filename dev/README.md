@@ -5,7 +5,7 @@ A Claude Code plugin for AI-assisted development workflows: plan, spec, break in
 The full loop looks like:
 
 ```
-/dev:grill-me   →   /dev:to-prd   →   /dev:to-issues   →   /dev:ralph
+/dev:grill-me   →   /dev:to-prd   →   /dev:to-issues   →   ralph
 ```
 
 ---
@@ -15,7 +15,10 @@ The full loop looks like:
 ```bash
 claude plugin marketplace add github.com/roysiddharth/dev-plugin --scope user
 claude plugin install dev --scope user
+bash scripts/install.sh
 ```
+
+`scripts/install.sh` adds a `ralph` alias to `~/.zshrc`. Restart your shell or run `source ~/.zshrc` after.
 
 ---
 
@@ -27,7 +30,12 @@ claude plugin install dev --scope user
 | to-prd | `/dev:to-prd` | Synthesizes the current conversation into a structured PRD. Saves it to the codebase. |
 | to-issues | `/dev:to-issues` | Breaks a PRD or plan into independently-grabbable GitHub issues using vertical tracer-bullet slices. Labels each `afk` or `hitl`. |
 | tdd | `/dev:tdd` | Test-driven development with red-green-refactor. One behavior at a time, integration-style tests only. |
-| ralph | `/dev:ralph` | AFK implementation loop. Picks up `afk`-labeled issues, implements with TDD, commits, pushes, and closes until the backlog is empty. |
+
+## Scripts
+
+| Script | Invoke | What it does |
+|--------|--------|--------------|
+| ralph | `ralph` | AFK implementation loop. Picks up `afk`-labeled issues, implements with TDD, commits, pushes, and closes until the backlog is empty. |
 
 ---
 
@@ -46,13 +54,13 @@ claude plugin install dev --scope user
 /dev:to-issues
 
 # 4. Walk away — ralph implements the backlog
-/dev:ralph
+ralph
 ```
 
 ### ralph flags
 
 ```
-/dev:ralph [--agent claude|opencode] [--branch <name>] [--issues <file>] [--iterations <n>]
+ralph [--agent claude|opencode] [--branch <name>] [--issues <file>] [--iterations <n>]
 ```
 
 | Flag | Default | Description |
@@ -81,6 +89,7 @@ If this file is present, auto-detection is skipped entirely.
 
 - [`gh`](https://cli.github.com/) CLI, authenticated to the repo
 - `git` initialized with a remote
+- `python3` in PATH
 - `claude` CLI in PATH (for `--agent claude`)
 - `opencode` in PATH (for `--agent opencode`)
 
