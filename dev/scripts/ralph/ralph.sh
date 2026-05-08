@@ -33,7 +33,7 @@ if [[ "${1:-}" == "--_run-window" ]]; then
       cat "${PROMPT_FILE}" | claude --dangerously-skip-permissions --print | tee "${OUTPUT_FILE}"
       ;;
     opencode)
-      OPENCODE_CONFIG_CONTENT='{"permission":"allow"}' opencode --print < "${PROMPT_FILE}" | tee "${OUTPUT_FILE}"
+      OPENCODE_CONFIG_CONTENT='{"permission":"allow"}' opencode run "$(cat "${PROMPT_FILE}")" | tee "${OUTPUT_FILE}"
       ;;
     *)
       echo "Unknown agent: ${AGENT}" >&2
