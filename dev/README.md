@@ -15,10 +15,15 @@ The full loop looks like:
 ```bash
 claude plugin marketplace add github.com/roysiddharth/dev-plugin --scope user
 claude plugin install dev --scope user
-bash scripts/install.sh
 ```
 
-`scripts/install.sh` adds a `ralph` alias to `~/.zshrc`. Restart your shell or run `source ~/.zshrc` after.
+Then add the `ralph` alias to your shell:
+
+```bash
+echo 'alias ralph="bash $(ls ~/.claude/plugins/cache/roysiddharth/dev/*/scripts/ralph.sh 2>/dev/null | tail -1)"' >> ~/.zshrc
+```
+
+Restart your shell or run `source ~/.zshrc` after.
 
 ---
 
