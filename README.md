@@ -1,6 +1,6 @@
 # claude-plugins
 
-Siddharth Roy's Claude Code plugin marketplace.
+sid's Claude Code plugin marketplace.
 
 ## Install
 
