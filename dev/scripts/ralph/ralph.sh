@@ -5,8 +5,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
-PROMPT_FILE="${CLAUDE_PLUGIN_ROOT:-${PLUGIN_ROOT}}/skills/ralph/prompt.md"
+PROMPT_FILE="${SCRIPT_DIR}/prompt.md"
 
 # Defaults
 AGENT="claude"
@@ -68,15 +67,20 @@ while true; do
   # Gather context
   ISSUES=$(fetch_issues)
   RECENT_COMMITS=$(git log --oneline -5 2>/dev/null || echo "(no commits yet)")
-  eval "$(bash "${SCRIPT_DIR}/detect-test-cmd.sh")"
+  eval "$(bash "${SCRIPT_DIR}/../detect-test-cmd.sh")"
 
-  # Build prompt from template
-  PROMPT=$(sed \
-    -e "s|{{ISSUES}}|${ISSUES}|g" \
-    -e "s|{{RECENT_COMMITS}}|${RECENT_COMMITS}|g" \
-    -e "s|{{TEST_CMD}}|${TEST_CMD:-}|g" \
-    -e "s|{{TYPECHECK_CMD}}|${TYPECHECK_CMD:-}|g" \
-    "${PROMPT_FILE}")
+  # Build prompt from template (env vars avoid BSD sed newline escaping issues)
+  PROMPT=$(RALPH_ISSUES="${ISSUES}" RALPH_COMMITS="${RECENT_COMMITS}" \
+    RALPH_TEST="${TEST_CMD:-}" RALPH_TYPECHECK="${TYPECHECK_CMD:-}" \
+    python3 -c "
+import os, pathlib
+t = pathlib.Path('${PROMPT_FILE}').read_text()
+t = t.replace('{{ISSUES}}', os.environ['RALPH_ISSUES'])
+t = t.replace('{{RECENT_COMMITS}}', os.environ['RALPH_COMMITS'])
+t = t.replace('{{TEST_CMD}}', os.environ['RALPH_TEST'])
+t = t.replace('{{TYPECHECK_CMD}}', os.environ['RALPH_TYPECHECK'])
+print(t, end='')
+")
 
   # Run agent
   RESPONSE=$(run_agent "${PROMPT}")
