@@ -97,4 +97,4 @@ If this file is present, auto-detection is skipped entirely.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT
