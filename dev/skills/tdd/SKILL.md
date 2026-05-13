@@ -50,7 +50,7 @@ Before writing any code:
 - [ ] Confirm with user which behaviors to test (prioritize)
 - [ ] Identify opportunities for [deep modules](deep-modules.md) (small interface, deep implementation)
 - [ ] Design interfaces for [testability](interface-design.md)
-- [ ] Identify infrastructure prerequisites (DB, env vars, external services) — resolve these before the first RED cycle, not during it
+- [ ] Identify infrastructure prerequisites (DB, env vars, external services, test target setup) — resolve before the first RED cycle. See [xcode.md](xcode.md) for Xcode-specific setup.
 - [ ] List the behaviors to test (not implementation steps)
 - [ ] Get user approval on the plan
 

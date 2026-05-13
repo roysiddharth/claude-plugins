@@ -152,8 +152,44 @@ func TestGetNodesByTag(t *testing.T) {
 }
 ```
 
+```swift
+// Swift (XCTest)
+func TestGetNodesByTag() throws {
+    let db = try setupTestDB()
+    try db.execute("INSERT INTO nodes (slug, tags) VALUES (?, ?)", "test-x", ["philosophy"])
+    defer { try? db.execute("DELETE FROM nodes WHERE slug = ?", "test-x") }
+
+    let results = try getNodesByTag("philosophy", db: db)
+    XCTAssertTrue(results.map { $0.slug }.contains("test-x"))
+}
+```
+
 **Env var initialization** — the DB client is often initialized at startup (module load, `init()`, package-level var). Env vars must be set before that point or the client will be misconfigured. How to handle this varies by language:
 
 - **TypeScript/vitest** — set `test.env` in `vitest.config.ts`; values are injected before module resolution. Inline `process.env` assignment won't work because ES module imports are hoisted.
 - **Python/pytest** — use a `conftest.py` fixture with `monkeypatch.setenv`, or set vars in `pyproject.toml` under `[tool.pytest.ini_options] env`. For module-level clients, use a session-scoped fixture that patches before import.
 - **Go** — call `os.Setenv` in `TestMain` before `m.Run()`, which runs before any test function executes.
+- **Swift/XCTest** — `setUp()` runs before each test method. For app-level singletons, prefer dependency injection over global state so each test can pass its own isolated instance.
+
+## Swift / XCTest
+
+```swift
+// GOOD: Tests observable behavior
+func testUserCanCheckoutWithValidCart() throws {
+    let cart = Cart()
+    cart.add(product)
+    let result = try checkout(cart, paymentMethod: .testCard)
+    XCTAssertEqual(result.status, .confirmed)
+}
+```
+
+```swift
+// BAD: Tests implementation details
+func testCheckoutCallsPaymentService() {
+    let mock = MockPaymentService()
+    checkout(cart, paymentMethod: .testCard)
+    XCTAssertTrue(mock.processWasCalled)  // coupled to internals
+}
+```
+
+See [xcode.md](xcode.md) for test target setup, build commands, and AppKit-specific constraints.
